@@ -5,12 +5,12 @@ with yellow_trips as (
     from {{ ref('stg_yellow_trips_2022') }}
 ),
 
-with green_trips as (
+green_trips as (
     select *,
     trip_type,
     'green' as cab_type
     from {{ ref('stg_green_trips_2022') }}
-),
+)
 
 select * from yellow_trips
 union all

@@ -2,13 +2,13 @@ with trips as (
 select * from {{ ref('int_trips_union') }}
 ),
 
-with pickup_zones as (
+pickup_zones as (
 select * from {{ ref('stg_taxi_zone_geom') }}
 ),
 
-with dropoff_zones as (
+dropoff_zones as (
 select * from {{ ref('stg_taxi_zone_geom') }}
-),
+)
 
 select
     trips.*,
@@ -21,9 +21,3 @@ left join pickup_zones
     on trips.pickup_location_id = pickup_zones.zone_id
 left join dropoff_zones
     on trips.dropoff_location_id = dropoff_zones.zone_id
-
-left join {{ ref('stg_taxi_zone_geom') }} as pickup_zones
-on trips.pickup_location_id = pickup_zones.pickup_location_id
-
-left join {{ ref('stg_taxi_zone_geom') }} as dropoff_zones
-on trips.dropoff_location_id = pickup_zones.dropoff_location_id
