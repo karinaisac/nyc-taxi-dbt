@@ -15,7 +15,8 @@ select
     pickup_zones.zone as pickup_zone,
     pickup_zones.borough as pickup_borough,
     dropoff_zones.zone as dropoff_zone,
-    dropoff_zones.borough as dropoff_borough
+    dropoff_zones.borough as dropoff_borough,
+    timestamp_diff(trips.dropoff_datetime, trips.pickup_datetime, minute) as trip_duration_minutes
 from trips
 left join pickup_zones
     on trips.pickup_location_id = pickup_zones.zone_id
