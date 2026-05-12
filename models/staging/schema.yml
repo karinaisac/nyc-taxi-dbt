@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: stg_yellow_trips_2022
+    description: "Staged yellow taxi trips for 2022. Filters out invalid trips, values that are out of range, and casts columns to correct data types."
+    columns:
+      - name: vendor_id
+        description: "ID of the taxi vendor."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+      - name: pickup_datetime
+        description: "Date and time when the trip began."
+        tests:
+          - not_null
+      - name: dropoff_datetime
+        description: "Date and time when the trip ended."
+        tests:
+          - not_null
+      - name: trip_distance
+        description: "Distance of the trip in miles."
+      - name: fare_amount
+        description: "Base fare amount in USD, excluding tips and surcharges."
+      - name: total_amount
+        description: "Total amount charged to the passenger, including all fees and surcharges."
+      - name: rate_code_id
+        description: "Rate code applied to the trip. 1 = Standard, 2 = JFK, 3 = Newark, 4 = Nassau/Westchester, 5 = Negotiated, 6 = Group ride."
+
+  - name: stg_green_trips_2022
+    description: "Staged green taxi trips for 2022. Filters out invalid trips, values that are out of range, and casts columns to correct data types."
+    columns:
+      - name: vendor_id
+        description: "ID of the taxi vendor."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+      - name: pickup_datetime
+        description: "Date and time when the trip began."
+        tests:
+          - not_null
+      - name: dropoff_datetime
+        description: "Date and time when the trip ended."
+        tests:
+          - not_null
+      - name: trip_distance
+        description: "Distance of the trip in miles."
+      - name: fare_amount
+        description: "Base fare amount in USD, excluding tips and surcharges."
+      - name: total_amount
+        description: "Total amount charged to the passenger, including all fees and surcharges."
+      - name: rate_code_id
+        description: "Rate code applied to the trip. 1 = Standard, 2 = JFK, 3 = Newark, 4 = Nassau/Westchester, 5 = Negotiated, 6 = Group ride."
+
+  - name: stg_taxi_zone_geom
+    description: "Lookup table mapping zone IDs to zone names and boroughs."
+    columns:
+      - name: zone_id
+        description: "Unique numerical identifier for each taxi zone."
+        tests:
+          - not_null
+          - unique
+      - name: zone
+        description: "Name of the zone."
+        tests:
+          - not_null
+      - name: borough
+        description: "Name of the borough."
+        tests:
+          - not_null
+            
