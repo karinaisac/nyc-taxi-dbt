@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: int_trips_union
+    description: "A union of the yellow and green taxi trips for 2022."
+    columns:
+      - name: cab_type
+        description: "Type of the cab: yellow or green."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['yellow', 'green']
+
+  - name: int_trips_enriched
+    description: "Union of yellow and green taxi trips for 2022 together with the trip duration and the names of the zones and boroughs where pickup and dropoff took place."
+    columns:
+      - name: cab_type
+        description: "Type of the cab: yellow or green."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['yellow', 'green']
+      - name: pickup_datetime
+        description: "Date and time when the trip began."
+        tests:
+          - not_null
+      - name: dropoff_datetime
+        description: "Date and time when the trip ended."
+        tests:
+          - not_null
+      - name: pickup_zone
+        description: "Name of the location of pickup."
+        tests:
+          - not_null
+      - name: dropoff_zone
+        description: "Name of the location of dropoff."
+        tests:
+          - not_null
+
+    
