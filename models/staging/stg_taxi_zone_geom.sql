@@ -4,7 +4,7 @@ with source as (
 ),
 
 cleaned_taxi_zones as (
-select
+select distinct
     cast(zone_id as int64) as zone_id,
     zone_name as zone,
     borough

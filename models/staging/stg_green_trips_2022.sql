@@ -8,7 +8,7 @@ select
     cast(vendor_id as int64) as vendor_id,
     pickup_datetime,
     dropoff_datetime,
-    cast(rate_code as int64) as rate_code_id,
+    cast(cast(rate_code as float64) as int64) as rate_code_id,
     cast(pickup_location_id as int64) as pickup_location_id,
     cast(dropoff_location_id as int64) as dropoff_location_id,
     passenger_count,
@@ -26,7 +26,9 @@ from source
     and passenger_count > 0
     and extract(year from pickup_datetime) = 2022
     and extract(year from dropoff_datetime) = 2022
-    and cast(rate_code as int64) not in (0,99)
+    and cast(cast(rate_code as float64) as int64) not in (0, 99)
+    and cast(pickup_location_id as int64) not in (57, 105, 264, 265)
+    and cast(dropoff_location_id as int64) not in (57, 105, 264, 265)
 )
 
 select * from cleaned_green_trips_2022

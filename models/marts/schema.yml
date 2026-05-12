@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: dim_locations
+    description: "A dimension table of the pickup and dropoff ids, zone names, and borough names."
+    columns:
+      - name: zone_id
+        description: "Numeric id of the pickup/dropoff zone."
+        tests:
+          - not_null
+          - unique
+      - name: zone
+        description: "Name of the taxi zone."
+        tests:
+          - not_null
+      - name: borough
+        description: "Name of the borough the zone belongs to."
+        tests:
+          - not_null
+
+  - name: fct_trips
+    description: "Core fact table with one row per taxi trip for 2022."
+    columns:
+      - name: trip_id
+        description: "Surrogate key uniquely identifying each trip, generated from vendor_id, pickup_datetime, and dropoff_datetime."
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_daily_summary
+    description: "An aggregated table that aggregates data about the trips with the grain being daily and the data being grouped by date and cab type. Data is reported on total revenue, total number of passengers, total number of trips, and average fare, trip duration, and trip distance."
+    columns:
+      - name: cab_type
+        description: "Type of the cab: yellow or green."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['yellow', 'green']
+      - name: trip_date
+        description: "Date of the trips being summarized."
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Sum of total_amount across all trips for that date and cab type, in USD."
+        tests:
+          - not_null
+      - name: total_trips
+        description: "Total number of trips being summarized."
+        tests:
+          - not_null

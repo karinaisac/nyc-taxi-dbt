@@ -32,8 +32,21 @@ green_trips as (
         trip_type,
         'green' as cab_type
     from {{ ref('stg_green_trips_2022') }}
-)
+),
 
+all_trips as (
 select * from yellow_trips
 union all
 select * from green_trips
+),
+
+deduped as (
+    select *
+    from all_trips
+    qualify row_number() over (
+        partition by vendor_id, pickup_datetime, dropoff_datetime
+        order by vendor_id
+    ) = 1
+)
+
+select * from deduped

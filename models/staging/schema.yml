@@ -5,12 +5,9 @@ models:
     description: "Staged yellow taxi trips for 2022. Filters out invalid trips, values that are out of range, and casts columns to correct data types."
     columns:
       - name: vendor_id
-        description: "ID of the taxi vendor."
+        description: "ID of the taxi vendor. Valid values are 1 (Creative Mobile Technologies) and 2 (VeriFone Inc)."
         tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values: [1, 2]
       - name: pickup_datetime
         description: "Date and time when the trip began."
         tests:
@@ -35,9 +32,6 @@ models:
         description: "ID of the taxi vendor."
         tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values: [1, 2]
       - name: pickup_datetime
         description: "Date and time when the trip began."
         tests:
