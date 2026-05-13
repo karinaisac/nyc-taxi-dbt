@@ -3,7 +3,7 @@ select * from {{ ref('int_trips_enriched') }}
 )
 
 select
-date(pickup_datetime) as trip_date,
+date_trunc(cast(pickup_datetime as date), month) as trip_month,
 cab_type,
 sum(total_amount) as total_revenue,
 count(*) as total_trips,
@@ -14,4 +14,4 @@ sum(passenger_count) as total_passengers
 
 from source
 
-group by trip_date, cab_type
+group by trip_month, cab_type
