@@ -27,7 +27,7 @@ models:
           - not_null
           - unique
 
-  - name: fct_daily_summary
+  - name: fct_monthly_summary
     description: "An aggregated table that aggregates data about the trips with the grain being daily and the data being grouped by date and cab type. Data is reported on total revenue, total number of passengers, total number of trips, and average fare, trip duration, and trip distance."
     columns:
       - name: cab_type
