@@ -38,6 +38,6 @@ And the third is the number of trips by pickup borough/dropoff borough and cab t
 
 When looking at the pickup and dropoff locations, we can see that the majority of rides take place in Manhattan. However, when looking at the dropoff location, Brooklyn has a higher rate, so it likely indicates that rides are hailed from Manhattan to Brooklyn, but not the other way around.
 
-A comment on all the charts: green cab rides comprise a tiny portion of all rides, with yellow cabs comprise the majority. When looking deeper into the data and looking at general trends, it might even make sense to omit the data of green cabs overall, but that would, of course, depends on the topic of the analysis.
+A comment on all the charts: green cab rides comprise a tiny portion of all rides, with yellow cabs comprising the majority. When looking deeper into the data and looking at general trends, it might even make sense to omit the data of green cabs overall, but that would, of course, depend on the topic of the analysis.
 
 ## View the full Looker dashboard here: https://datastudio.google.com/reporting/f156d6a6-cfcb-4a24-bff4-427bc838698d 
