@@ -40,18 +40,21 @@ models/
 For charts, there are many possibilities here and my dashboard does not cover them all, but I chose to focus on three topics.
 
 ### Revenue by month and cab type
-<img width="727" height="562" alt="taxi 1" src="..."/>
+<img width="727" height="562" alt="taxi 1" src="https://github.com/user-attachments/assets/6b9b5bf3-3191-44db-8920-094b354e288e" />
 
 Highlights seasonal demand patterns across the year. Nov–Dec data was excluded due to significant gaps that skewed results.
 
 ### Revenue by rate code and cab type
-<img width="750" height="557" alt="taxi 2" src="..."/>
+<img width="750" height="557" alt="taxi 2" src="https://github.com/user-attachments/assets/8d0fa5a6-ee2a-46f2-a692-22a3cca6b4e5" />
+
 
 The NYC rate code breakdown reveals that standard-rate rides dominate revenue, with JFK airport rides in second place. There is a notable revenue gap between JFK and Newark rides, suggesting either lower volume or lower average fares on the Newark route.
 
 ### Trips by pickup and dropoff borough
-<img width="732" height="532" alt="taxi 3" src="..."/>
-<img width="737" height="527" alt="taxi 4" src="..."/>
+<img width="732" height="532" alt="taxi 3" src="https://github.com/user-attachments/assets/ac08f475-3a97-40c3-af2d-94ff5b1229ef" />
+<br>   
+<img width="737" height="527" alt="taxi 4" src="https://github.com/user-attachments/assets/e7d4052e-6d48-40a7-b9d0-7f338ecadbd2" />
+
 
 Manhattan dominates pickup volume, but Brooklyn has a disproportionately higher share of dropoffs — consistent with a pattern of rides being hailed from Manhattan to Brooklyn, with little reverse traffic. Green cabs account for a very small share across all charts; whether to include or exclude them depends on the specific analysis being conducted.
 
