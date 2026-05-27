@@ -1,43 +1,58 @@
 # nyc-taxi-dbt
 
-For my project, I used a public dataset that is available on BigQuery that documents taxi trips in New York City. My goal with this data was to create models and views that answered the business question(s) of "How can NYC taxi operations be analyzed to understand demand patterns and revenue drivers". Since the dataset is very large, I opted to use data from 2022 only and to include both yellow and green cabs.  
+## Overview
+An end-to-end analytics project using the public NYC Taxi Trips dataset available on BigQuery. The central business question is: **"How can NYC taxi operations be analyzed to understand demand patterns and revenue drivers?"**
 
-The data was first opened in BigQuery, then connected to dbt, cleaned and transformed, and then connected to Looker to create a dashboard. In dbt, the data was cleaned and transformed. In my case, since the data was complex, it underwent all three stages of modeling: staging, intermediate, and marts. The staging model involved multiple casts to correct data types and elimination of outliers, such as taxi rides in years other than 2022. In the staging model, data for yellow and green cabs was unioned and then the dimensions data on pickup and dropoff zone names was added, as well as the trip duration. In the marts models, the locations dimension was kept separate, the full fact table for all trips was created, and a daily summary table of key metrics was created for a snapshot of each day (daily average fare, trip distance, trip duration, total passengers, etc.).
+The project covers data from **2022 only** (filtered to reduce volume) and includes both **yellow and green cab** trips. Data was loaded in BigQuery, transformed in dbt across three modeling layers, and visualized in a Looker dashboard.
 
-The resulting lineage of the models is detailed below: 
+## Stack
+- **Warehouse:** Google BigQuery
+- **Transformation:** dbt
+- **Visualization:** Looker
+- **Source data:** NYC Taxi Trips public dataset (BigQuery)
 
+## Data Limitations
+- **Nov–Dec 2022 data:** Largely missing for both cab types and was excluded, as it was skewing revenue totals.
+- **Green cab volume:** Green cab trips represent a very small fraction of total rides. Depending on the analysis, it may make sense to exclude them for cleaner trend lines.
 
+## Model Structure
+
+```
+models/
+├── staging/
+│   ├── stg_yellow_trips.sql       -- Cast types, filter to 2022, remove outliers
+│   ├── stg_green_trips.sql        -- Cast types, filter to 2022, remove outliers
+│   └── stg_taxi_zones.sql         -- Pickup/dropoff zone reference data
+├── intermediate/
+│   └── int_taxi_trips.sql         -- Union yellow + green, join zones, add trip duration
+└── marts/
+    ├── dim_taxi_zones.sql          -- Location dimension (pickup/dropoff zone names)
+    ├── fct_taxi_trips.sql          -- Full fact table for all 2022 trips
+    └── fct_daily_summary.sql       -- Daily aggregates: avg fare, distance, duration, passengers
+```
+
+**Data flow:** Sources → Staging → Intermediate → Marts → Looker
+
+### Full lineage 
 <img width="1827" height="482" alt="full lineage" src="https://github.com/user-attachments/assets/04d257c4-2117-40ba-be43-1bd2cb037764" />
 
-
+## Dashboard & Key Findings
 For charts, there are many possibilities here and my dashboard does not cover them all, but I chose to focus on three topics.
 
-The first is total revenue by trip month and cab type:
+### Revenue by month and cab type
+<img width="727" height="562" alt="taxi 1" src="..."/>
 
+Highlights seasonal demand patterns across the year. Nov–Dec data was excluded due to significant gaps that skewed results.
 
-<img width="727" height="562" alt="taxi 1" src="https://github.com/user-attachments/assets/5b99a774-29f8-411f-915d-cf4399845087" />
+### Revenue by rate code and cab type
+<img width="750" height="557" alt="taxi 2" src="..."/>
 
+The NYC rate code breakdown reveals that standard-rate rides dominate revenue, with JFK airport rides in second place. There is a notable revenue gap between JFK and Newark rides, suggesting either lower volume or lower average fares on the Newark route.
 
-This could be used to identify any seasonal factors that affect demand and to plan supply, keeping in mind changing demand over months. Unfortunately, the data was mostly missing for November and December, so I had to omit that data, since it was skewing the results. 
+### Trips by pickup and dropoff borough
+<img width="732" height="532" alt="taxi 3" src="..."/>
+<img width="737" height="527" alt="taxi 4" src="..."/>
 
-The second is total revenue by rate code and cab type:
-
-
-<img width="750" height="557" alt="taxi 2" src="https://github.com/user-attachments/assets/f95b82da-cfa8-4dd7-b147-8278ef13ce9d" />
-
-
-The rate code is specific to New York City and was added as an additional legend for clarity. Looking at the data, we can see that the majority of revenue comes from standard rate rides and rides to JFK are in second place. There is also a significant difference in the revenue between rides to JFK and rides to Newark.
-
-And the third is the number of trips by pickup borough/dropoff borough and cab type:
-
-
-<img width="732" height="532" alt="taxi 3" src="https://github.com/user-attachments/assets/4c36d9b7-8356-490c-b54f-0521112a7519" />
-<br>
-<img width="737" height="527" alt="taxi 4" src="https://github.com/user-attachments/assets/7594a031-b74e-4ca4-9d6c-23c32b6d9ee7" />
-
-
-When looking at the pickup and dropoff locations, we can see that the majority of rides take place in Manhattan. However, when looking at the dropoff location, Brooklyn has a higher rate, so it likely indicates that rides are hailed from Manhattan to Brooklyn, but not the other way around.
-
-A comment on all the charts: green cab rides comprise a tiny portion of all rides, with yellow cabs comprising the majority. When looking deeper into the data and looking at general trends, it might even make sense to omit the data of green cabs overall, but that would, of course, depend on the topic of the analysis.
+Manhattan dominates pickup volume, but Brooklyn has a disproportionately higher share of dropoffs — consistent with a pattern of rides being hailed from Manhattan to Brooklyn, with little reverse traffic. Green cabs account for a very small share across all charts; whether to include or exclude them depends on the specific analysis being conducted.
 
 ## View the full Looker dashboard here: https://datastudio.google.com/reporting/f156d6a6-cfcb-4a24-bff4-427bc838698d 
